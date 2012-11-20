@@ -81,17 +81,12 @@ void initPeripherals(void){
 	faultStatus.warmUpFault = 0;
 	count =0;
 	error = 0;
-	strPTR = 0;
-	endPTR = BUFFER_SIZE;
 	/* Init I2C */
 	I2CCON = I2C_ON & I2C_IDLE_CON &  I2C_CLK_REL & I2C_IPMI_DIS & I2C_7BIT_ADD & I2C_SLW_DIS & I2C_SM_DIS; 
 	I2CCON &= I2C_GCALL_DIS & I2C_STR_DIS & I2C_ACK;
 	I2CBRG = I2C_BAUD_RATE_GENERATOR;
 	__asm__ volatile("clr A");
 	thermalCounter = 0;
-	//prevThermalError = 0;
-	//thermalError = 0;
-	//calcThermalError = 0;
 	counterA = 0;
 	counterB = 0;
 	CORCON = 0x00D1; //Integer Multiplication, Supersaturation + A and B saturation enabled

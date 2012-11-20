@@ -86,24 +86,6 @@ void __attribute__((interrupt, shadow, no_auto_psv)) _INT0Interrupt(void)
 	
 	IEC0bits.INT0IE = 0;  /* disable interrupt to prevent debouncing */
 	
-	//__delay32(triggerDelay); /* triggerDelay  */
-/*	__asm__ volatile("mov.w  _triggerDelay,w0");
-	__asm__ volatile("mov.w #0x0,w1");
-	__asm__ volatile("sub #1023,w0");
-	__asm__ volatile("subb #0,w1");
-	__asm__ volatile("bra lt,2f");
-	__asm__ volatile("4: repeat #1006");
-	__asm__ volatile("nop");
-	__asm__ volatile("sub #1012, w0");
-	__asm__ volatile("subb #0, w1");
-	__asm__ volatile("bra ge, 4b");
-	__asm__ volatile("add #1,w0");
-	__asm__ volatile("2: add #1010,w0");
-	__asm__ volatile("bra lt,3f");
-	__asm__ volatile("repeat w0");
-	__asm__ volatile("nop");
-	__asm__ volatile("3:");*/
-	
 	PTCONbits.PTEN = 0;                /* Disable PWM Module */	
 	
 	SAMPLE = 1;
@@ -172,11 +154,6 @@ void __attribute__ ((interrupt, no_auto_psv)) _T2Interrupt(void)
 	IFS0bits.T2IF	= 0;
 	T2CONbits.TON 	= 0;
 	count++;
-	/*flagT2 = 1;*/
-	/*PDC1 = HALF_DC;
-	PDC2 = HALF_DC;
-	PDC3 = HALF_DC;
-	PDC4 = HALF_DC;*/
 }
 
 /******************************************************************************

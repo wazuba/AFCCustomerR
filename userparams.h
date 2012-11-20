@@ -45,7 +45,6 @@
 	#define AFC_LOST_FAULT			0x0C
 	#define OCFAULT					0x03
 	#define BUFFER_SIZE				32
-	
 	#define COOL_SHIFTS				14
 	#define MOTOR_PRE_SHIFTS		16
 	#define MOTOR_RATE				800

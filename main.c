@@ -43,43 +43,21 @@ int stepSize;					//Used for microstepping
 unsigned int motorStep;			//Check if still used
 unsigned int motorPos; 			//Current motor position
 unsigned int motorPosAddress;	//EEPROM address for motor position
-int errorArray[BUFFER_SIZE];	//Filter for error - not used
-int strPTR;						//Not used
-int endPTR;						//Not used
-int bufferFull;					//Not used
 int error;						//Perturb and Observe error
 unsigned int sampleTrigger;		
 faultFlags faultStatus;			//Fault flag structure
-int sigma;						//Not used
-int delta;						//Not used
 unsigned int homePos;			//Current home position of the motor
-unsigned int count;				
+unsigned int count;
+unsigned int thermalCounter;				
 int heatPerPulse;				//Analog reference representing the added heat per pulse
 int prevReflectedPower;			//Used to store the previous sample of the reflected power
 int reflectedPower;				//The current sample of reflected power
-int thermalError;				//Not used?
 int coolRate;					//Cooling rate factor - decrease accumulator by this amount every X mS
-unsigned int thermalCounter;	//Not used?
-unsigned int prevThermalCounter;//Not used?
 int target;						//Target position given by control loop
 unsigned long heatAccumulator;	//32 bit Accumulator for thermal model
 int counterA;					
 int counterB;
- 
-/*
-Variable Declaration required for each PID controller in your application
-*/
-/* Declare a PID Data Structure named, fooPID */
-tPID fooPID;
-/* The fooPID data structure contains a pointer to derived coefficients in X-space and */
-/* pointer to controler state (history) samples in Y-space. So declare variables for the */
-/* derived coefficients and the controller history samples */
-fractional abcCoefficient[3] __attribute__ ((section (".xbss, bss, xmemory")));
-fractional controlHistory[3] __attribute__ ((section (".ybss, bss, ymemory")));
-/* The abcCoefficients referenced by the fooPID data structure */
-/* are derived from the gain coefficients, Kp, Ki and Kd */
-/* So, declare Kp, Ki and Kd in an array */
-fractional kCoeffs[] = {0,0,0};
+
 
 /*----------------------------------------------------------------------------*/
 
@@ -158,20 +136,6 @@ void stateMachine(void)
 		indexMotor(homePos, MAX_STEPS); //MAX_STEPS is 1000, moveMotor() steps 1 motor step at a time.
 	}
 	/* End of INIT State*/
-	
-	/******************************************************************************
-	* WARM_UP State
-	* As long as the warm up complete signal is not given the AFC will remain in
-	* this state.
-	******************************************************************************/
-	
-	/*if (state == STATE_WARM_UP)
-	{
-		triggerINT = disableINT0();
-		//updateAnalogOut(homePos);
-		bufferFull = 0;
-		
-	}*/
 
 	/******************************************************************************
 	* MAN State
@@ -194,10 +158,10 @@ void stateMachine(void)
 			__delay32(EEPROM_DELAY*10); 			/* Debouncing (50ms Delay) can be made faster for practical application */
 			unsigned int countTemp = 0;
 			count =0;
-			//do{	
+
 			while(!MAN_DELAY_UP == 1)
 			{
-				//__delay32(EEPROM_DELAY*4);
+
 				setDir = FORWARD;
 				motorPos++;
 				moveMotor(setDir, TIMER_PERIOD2);
@@ -205,9 +169,7 @@ void stateMachine(void)
 				countTemp++;
 				updateAnalogOut(motorPos);
 			}
-				 
-			//M24LC64FWriteWord(MOTOR_POS_ADDRESS, motorPos, M24LC64F_ADDRESS_0);
-			//}while (count <500);
+
 			setDir = STOP;
 			moveMotor(setDir, TIMER_PERIOD2);
 		}
@@ -217,10 +179,10 @@ void stateMachine(void)
 			__delay32(EEPROM_DELAY*10);				/* Debouncing (50ms Delay) can be made faster for practical application */
 			unsigned int countTemp = 0;
 			count =0;
-			//do{	
+	
 			while(!MAN_DELAY_DOWN == 1)
 			{
-				//__delay32(EEPROM_DELAY*4);
+
 				setDir = REVERSE;
 				motorPos--;
 				moveMotor(setDir, TIMER_PERIOD2);
@@ -228,9 +190,7 @@ void stateMachine(void)
 				countTemp++;
 				updateAnalogOut(motorPos);
 			}
-				//M24LC64FWriteWord(MOTOR_POS_ADDRESS, motorPos, M24LC64F_ADDRESS_0);
-				
-				//}while (count <500);
+
 				setDir = STOP;
 				moveMotor(setDir, TIMER_PERIOD2);				
 		}
@@ -342,17 +302,6 @@ void checkState(void)
 {
 	if (state != STATE_FAULT)
 	{
-		/*if (!WARM_UP == 1)				// Check if Warm Up stage is complete.
-		{
-			warmUpComplete = 1;
-			faultStatus.warmUpFault = 0;
-		}
-		else
-		{
-			warmUpComplete = 0;
-			state = STATE_WARM_UP;
-			faultStatus.warmUpFault = 1;
-		}*/
 		
 		if (MAN_AFC_SELECT == 1) 		// Check if Manual or AFC control is selected 1 = AFC and 0 = Manual
 		{
@@ -379,40 +328,6 @@ void checkState(void)
 	
 }
 
-/******************************************************************************
-* Function:     calcError()
-*
-* Output:		None
-*
-* Overview:		The function calculates the error using the Sigma and Delta 
-*				signals that are read by the ADC.
-* Note:			None
-*******************************************************************************/
-
-void calcError()
-{
-		
-		fooPID.controlReference = Q15(0) ;           /*Set the Reference Input for your controller */
-		fooPID.measuredOutput = Q15(error/5) ;    
-		PID(&fooPID);	
-		if ((Fract2Float(fooPID.controlOutput)*0x007F > 0) && (error < -SMALL_ERROR))
-		{
-		setDir = REVERSE;
-		motorPos--; 
-		}
-		else if ((Fract2Float(fooPID.controlOutput)*0x007F < 0) && (error > SMALL_ERROR))
-		{
-		setDir = FORWARD;
-		motorPos++;
-		}
-		else
-		{
-			setDir = STOP;
-		}
-
-}
-/* End of calcError()*/
-
 /*******************************************************************************
 * Function:     calcThermalError()
 *
@@ -424,17 +339,9 @@ void calcError()
 *******************************************************************************/
 int calcThermalError()
 {
-	int tempError;
-	/*prevThermalError = thermalError;
-	__asm__ volatile ("clr B");
-	__asm__ volatile ("add B");
-	__asm__ volatile ("mov %0,ACCBL":"+r"(thermalError));
-	tempError = thermalError - prevThermalError;*/
-	tempError = ((heatAccumulator>>MOTOR_PRE_SHIFTS) * MOTOR_RATE) >> MOTOR_POST_SHIFTS;
 	
-	return tempError;
-	
-	
+	return (((heatAccumulator>>MOTOR_PRE_SHIFTS) * MOTOR_RATE) >> MOTOR_POST_SHIFTS);
+		
 }
 /* End of calcThermalError()*/
 
@@ -454,24 +361,22 @@ int calcThermalError()
 void moveMotorThermal()
 {
 
-	if ((motorPos - target) < -SMALL_THERMAL_ERROR)
+	if ((motorPos - target) < -SMALL_ERROR)
 	{
 		PR2 = TIMER_PERIOD2;
 		TMR2	= 0;
 		T2CONbits.TON 	= 1;
 		setDir = REVERSE;
 		motorPos--;
-		//motorError += MOTOR_RATE; //needs to be scaled by the frequency to steps ratio
 		while (T2CONbits.TON);		
 	}
-	else if ((motorPos - target) > SMALL_THERMAL_ERROR)
+	else if ((motorPos - target) > SMALL_ERROR)
 	{
 		PR2 = TIMER_PERIOD2;
 		TMR2	= 0;
 		T2CONbits.TON 	= 1;
 		setDir = FORWARD;
 		motorPos++;
-		//motorError -= MOTOR_RATE; //needs to be scaled by the frequency to steps ratio
 		while (T2CONbits.TON);
 	}
 	else
@@ -572,7 +477,7 @@ void checkFaults(void)
 		
 		state = STATE_FAULT;
 		PTCONbits.PTEN = 0;                /* Disable PWM Module */	
-		//ADCPC0bits.SWTRG1 = 1; 								/*Trigger ADC to convert AN2 and AN3 */
+		
 		while(!IFS0bits.T1IF);
 		IMotor1  = ADCBUF2;      							/* Get the conversion result */
 		IMotor2  = ADCBUF3;
@@ -595,7 +500,7 @@ void checkFaults(void)
 		faultStatus.afcLostFault = 0;
 	}
 
-	FLT1 = 1;
+	FLT1 = ((faultStatus.afcLostFault)&&(faultStatus.ocFault));
 	FLT2 = !((faultStatus.afcLostFault));
 	FLT3 = !((faultStatus.ocFault));
 	
@@ -616,7 +521,7 @@ void indexMotor(int returnPosition, int stepsToStop)
 	unsigned int countTemp = 0;
 	count =0;
 	do{	
-		//__delay32(EEPROM_DELAY*4);
+		
 		setDir = REVERSE;
 		moveMotor(setDir, TIMER_PERIOD2);
 		while(count==countTemp);
