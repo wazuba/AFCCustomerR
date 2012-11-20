@@ -187,31 +187,16 @@ void stateMachine(void)
 		{
 			triggerINT = disableINT0();
 		}
-		
-		if (!MAN_DELAY_CTRL == 1)					/* Check if we are setting Motor Position (= 1) or Delay (= 0) */
-		{
-			motorOrDelay = 0;
-			homePos = motorPos;
-			updateAnalogOut(homePos);
-			M24LC64FWriteWord(HOME_ADDRESS, homePos ,M24LC64F_ADDRESS_0);
-		}
-		else
-		{
-			motorOrDelay = 1;
-			updateAnalogOut(motorPos);
-		}
-	
+			
 		if (!MAN_DELAY_UP == 1)								
 		{
 			
 			__delay32(EEPROM_DELAY*10); 			/* Debouncing (50ms Delay) can be made faster for practical application */
-			if (motorOrDelay == 1)
+			unsigned int countTemp = 0;
+			count =0;
+			//do{	
+			while(!MAN_DELAY_UP == 1)
 			{
-				unsigned int countTemp = 0;
-				count =0;
-				//do{	
-				while(!MAN_DELAY_UP == 1)
-				{
 				//__delay32(EEPROM_DELAY*4);
 				setDir = FORWARD;
 				motorPos++;
@@ -219,38 +204,22 @@ void stateMachine(void)
 				while(count==countTemp);
 				countTemp++;
 				updateAnalogOut(motorPos);
-				}
+			}
 				 
-				//M24LC64FWriteWord(MOTOR_POS_ADDRESS, motorPos, M24LC64F_ADDRESS_0);
-				
-				//}while (count <500);
-				setDir = STOP;
-				moveMotor(setDir, TIMER_PERIOD2);
-			}
-			else
-			{
-				
-				if (homePos >= MAX_STEPS)
-					homePos = MAX_STEPS;
-				else
-					homePos ++; 						
-			
-				updateAnalogOut(homePos);
-				M24LC64FWriteWord(HOME_ADDRESS, homePos ,M24LC64F_ADDRESS_0);
-				
-			}
+			//M24LC64FWriteWord(MOTOR_POS_ADDRESS, motorPos, M24LC64F_ADDRESS_0);
+			//}while (count <500);
+			setDir = STOP;
+			moveMotor(setDir, TIMER_PERIOD2);
 		}
 	
 		if (!MAN_DELAY_DOWN == 1)
 		{
 			__delay32(EEPROM_DELAY*10);				/* Debouncing (50ms Delay) can be made faster for practical application */
-			if (motorOrDelay == 1)
+			unsigned int countTemp = 0;
+			count =0;
+			//do{	
+			while(!MAN_DELAY_DOWN == 1)
 			{
-				unsigned int countTemp = 0;
-				count =0;
-				//do{	
-				while(!MAN_DELAY_DOWN == 1)
-				{
 				//__delay32(EEPROM_DELAY*4);
 				setDir = REVERSE;
 				motorPos--;
@@ -258,26 +227,12 @@ void stateMachine(void)
 				while(count==countTemp);
 				countTemp++;
 				updateAnalogOut(motorPos);
-				}
-				 
+			}
 				//M24LC64FWriteWord(MOTOR_POS_ADDRESS, motorPos, M24LC64F_ADDRESS_0);
 				
 				//}while (count <500);
 				setDir = STOP;
 				moveMotor(setDir, TIMER_PERIOD2);				
-			}
-			else
-			{
-				
-			
-				if (homePos <= MIN_DELAY)
-					homePos = 0;
-				else
-					homePos --;							
-				
-				updateAnalogOut(homePos);
-				M24LC64FWriteWord(HOME_ADDRESS, homePos ,M24LC64F_ADDRESS_0);
-			}
 		}
 	
 	}
@@ -301,76 +256,43 @@ void stateMachine(void)
 			indexMotor(homePos, MAX_STEPS);
 		}
 		
+				
 		heatPerPulse = 0;
 		
-		if (sampleTrigger)
+		if (sampleTrigger) //If a pulse occured and the trigger was sent to the board 
 		{
 			sampleTrigger = 0;
+			error = 0;
+			if(!MAN_DELAY_CTRL == 1) // if servo is on utilize the perturb and observe
+			{		
+				prevReflectedPower = 0;
+				
+				/* The ADC is triggered by a special comparison event of the PWM module */
+				ADCPC2bits.SWTRG5 = 1; /*Trigger ADC to convert AN11 (Heat Per Pulse input from PLC) */
+				while(!ADSTATbits.P5RDY);
 			
-			prevReflectedPower = 0;
-			
-			/* The ADC is triggered by a special comparison event of the PWM module */
-			ADCPC2bits.SWTRG5 = 1; /*Trigger ADC to convert AN11 (Heat Per Pulse input from PLC) */
-			while(!ADSTATbits.P5RDY);
-		
-			heatPerPulse = ADCBUF11;
-			
-			ADCPC0bits.SWTRG0 = 1; /*Trigger ADC to convert AN0 (Reflected port) */
-			while(!ADSTATbits.P0RDY);
-			
-			prevReflectedPower = reflectedPower;
-			
-			reflectedPower = ADCBUF0;
-			
-			// delta = ADCBUF1;
-			
-			ADSTATbits.P0RDY = 0;           /* Clear the ADSTAT bits */
-			//ADSTATbits.P1RDY = 0;
-			ADSTATbits.P5RDY = 0;
-			 
-			/*__asm__ volatile ("clr B");
-			__asm__ volatile ("lac %0,B":"+r"(heatPerPulse));
-			__asm__ volatile ("sftac B,#16");
-			__asm__ volatile ("add A");*/
-			
-			heatAccumulator += heatPerPulse;
-						
-			/*No buffer*/
-			error = (int)(reflectedPower - prevReflectedPower);
-			
-			/* Filtering using a FIFO buffer*/
-			
-			/*errorArray[strPTR] = (int)(reflectedPower - prevReflectedPower);
-			strPTR++;
-			if (strPTR >= endPTR)
-				{
-					bufferFull = 1;
-					strPTR = 0;
-				}
-			if (bufferFull == 1)
-				{
-					int i;
-					for (i = 0; i < endPTR; i++)
-					{
-						error += errorArray[i];
-					}
-					error = error >> 5; //BUFFER_SIZE = 32 -> 2^5 = 32
-				}*/
-		/*	else
-				{
-					int j;
-					for (j = 0; j < strPTR; j++)
-					{
-						error += errorArray[j];
-					}
-					error = error/strPTR;
-				}*/
-			triggerINT = enableINT0();
-			//calcError();						/* Calculate Error based on A/D results for reflected power*/
-			//moveMotor(setDir, motorStep);
-			//while (T2CONbits.TON);
-		}
+				heatPerPulse = ADCBUF11;
+				
+				ADCPC0bits.SWTRG0 = 1; /*Trigger ADC to convert AN0 (Reflected port) */
+				while(!ADSTATbits.P0RDY);
+				
+				prevReflectedPower = reflectedPower;
+				
+				reflectedPower = ADCBUF0;
+								
+				ADSTATbits.P0RDY = 0;           /* Clear the ADSTAT bits */
+				
+				ADSTATbits.P5RDY = 0;
+												
+				heatAccumulator += heatPerPulse;
+							
+				/*No buffer*/
+				error = (int)(reflectedPower - prevReflectedPower);
 
+				triggerINT = enableINT0();
+				
+			}
+		}
 			
 			if (thermalCounter >= 2500) //Using the PWM special event interrupt to increment every TMR1 period match (~20us) 2500*20uS ~= 50mS
 			{
