@@ -2,7 +2,7 @@
 MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
 Version=1.0
 [File000]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R Feedforward\main.o
+Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\main.o
 Folder=Intermediary
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -13,9 +13,9 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG
 [File001]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R Feedforward\init.o
+Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\init.o
 Folder=Intermediary
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -26,9 +26,9 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG
 [File002]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R Feedforward\Interrupts.o
+Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\Interrupts.o
 Folder=Intermediary
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -39,9 +39,9 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG
 [File003]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R Feedforward\M24LC64F.o
+Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\M24LC64F.o
 Folder=Intermediary
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -52,9 +52,9 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG
 [File004]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R Feedforward\MCP4725F.o
+Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\MCP4725F.o
 Folder=Intermediary
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -65,9 +65,9 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG
 [File005]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R Feedforward\AFC.cof
+Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\AFC.cof
 Folder=Output
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -78,9 +78,9 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)" -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem
 TraceCmdString=
-DebugOptions=
+DebugOptions=--defsym=__MPLAB_DEBUG=1
 [File006]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R Feedforward\AFC.hex
+Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\AFC.hex
 Folder=Output
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -91,7 +91,7 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)" -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem
 TraceCmdString=
-DebugOptions=
+DebugOptions=--defsym=__MPLAB_DEBUG=1
 [TOOL_LOC_STAMPS]
 tool_loc{069BD372-6CA0-40D4-BF2F-5DC806D05083}=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
 tool_loc{433C3D55-811D-409D-A6BF-159CF9355B42}=C:\Program Files\Microchip\MPLAB C30\bin\pic30-ld.exe

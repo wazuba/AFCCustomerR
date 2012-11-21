@@ -85,25 +85,10 @@ void initPeripherals(void){
 	I2CCON = I2C_ON & I2C_IDLE_CON &  I2C_CLK_REL & I2C_IPMI_DIS & I2C_7BIT_ADD & I2C_SLW_DIS & I2C_SM_DIS; 
 	I2CCON &= I2C_GCALL_DIS & I2C_STR_DIS & I2C_ACK;
 	I2CBRG = I2C_BAUD_RATE_GENERATOR;
-	__asm__ volatile("clr A");
+
 	thermalCounter = 0;
 	counterA = 0;
 	counterB = 0;
-	CORCON = 0x00D1; //Integer Multiplication, Supersaturation + A and B saturation enabled
-
-			
-	/*
-Step 1: Initialize the PID data structure, fooPID
-*/
-    fooPID.abcCoefficients = &abcCoefficient[0];    /*Set up pointer to derived coefficients */
-    fooPID.controlHistory = &controlHistory[0];     /*Set up pointer to controller history samples */
-    PIDInit(&fooPID);                               /*Clear the controler history and the controller output */
-	kCoeffs[0] = Q15(0.5);
-	kCoeffs[1] = Q15(0);
-	kCoeffs[2] = Q15(0);
-    PIDCoeffCalc(&kCoeffs[0], &fooPID);             /*Derive the a,b, & c coefficients from the Kp, Ki & Kd */
-	/* set Statemachine initial state */
-	
 }    
 
 /******************************************************************************
@@ -283,14 +268,16 @@ void initADC(void)
 	ADCONbits.SEQSAMP   = 1;        /* Sequential Sampling Enabled */
 	ADCONbits.ADCS      = 5;        /* Clock Divider is set up for Fadc/14 */
 	IPC2bits.ADIP = 4; /* Set ADC Interrupt Priority*/
-	ADPCFG = 0xF7F0;				/* Set AN0, AN1, AN2, AN3 and AN11 as analog inputs */
+	ADPCFG = 0xF5F0;				/* Set AN0, AN1, AN2, AN3, AN9 and AN11 as analog inputs */
 	ADSTAT = 0;                     /* Clear the ADSTAT register */
 	ADCPC0bits.TRGSRC0 	= 1;      	/* Trigger conversion of AN0 and AN1 Software Trigger */
 	ADCPC0bits.TRGSRC1 	= 12;      /* Trigger conversion of AN2 and AN3 on Timer 1 period match */
 	ADCPC2bits.TRGSRC5	= 1;      	/* Trigger conversion of AN11 Software Trigger */
+	ADCPC2bits.TRGSRC4	= 1;      	/* Trigger conversion of AN9 Software Trigger */
 	ADCPC0bits.IRQEN0	= 1;        /* Enable the interrupt */
 	ADCPC0bits.IRQEN1	= 1;        /* Enable the interrupt */
 	ADCPC2bits.IRQEN5	= 1;        /* Enable the interrupt */
+	ADCPC2bits.IRQEN4	= 1;        /* Enable the interrupt */
 		
 	/* Set up the Interrupts */
 	

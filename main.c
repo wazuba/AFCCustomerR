@@ -133,7 +133,7 @@ void stateMachine(void)
 		initPWM();
 		initADC();
 		initTMR();
-		indexMotor(homePos, MAX_STEPS); //MAX_STEPS is 1000, moveMotor() steps 1 motor step at a time.
+		indexMotor(0, MAX_STEPS); 
 	}
 	/* End of INIT State*/
 
@@ -194,6 +194,25 @@ void stateMachine(void)
 				setDir = STOP;
 				moveMotor(setDir, TIMER_PERIOD2);				
 		}
+		
+		if (thermalCounter >= 2500) //Using the PWM special event interrupt to increment every TMR1 period match (~20us) 2500*20uS ~= 50mS
+			{
+				
+				/*Reduce the accumulator by the cool rate coef.*/
+				if (heatAccumulator>0)
+					heatAccumulator -= (heatAccumulator>>COOL_SHIFTS)*COOL_RATE;
+				else
+					heatAccumulator = 0;
+					
+				ADCPC2bits.SWTRG5 = 1; /*Trigger ADC to convert AN9 (Home Position input from PLC) */
+				while(!ADSTATbits.P4RDY);
+				homePos = ADCBUF9;
+				ADSTATbits.P4RDY = 0;
+				
+			}		
+				/* Outer loop, calculates Thermal Drift effects and moves motor proactivley (Feedforward)*/
+				target = homePos + calcThermalError();
+				moveMotorThermal();
 	
 	}
 	/* End of MAN State*/
@@ -259,7 +278,10 @@ void stateMachine(void)
 				
 				/*Reduce the accumulator by the cool rate coef.*/
 				heatAccumulator -= (heatAccumulator>>COOL_SHIFTS)*COOL_RATE;
-
+				ADCPC2bits.SWTRG5 = 1; /*Trigger ADC to convert AN9 (Home Position input from PLC) */
+				while(!ADSTATbits.P4RDY);
+				homePos = ADCBUF9;
+				ADSTATbits.P4RDY = 0;
 				
 			}		
 				/* Outer loop, calculates Thermal Drift effects and moves motor proactivley (Feedforward)*/
@@ -340,7 +362,7 @@ void checkState(void)
 int calcThermalError()
 {
 	
-	return (((heatAccumulator>>MOTOR_PRE_SHIFTS) * MOTOR_RATE) >> MOTOR_POST_SHIFTS);
+	return (heatAccumulator >> MOTOR_POST_SHIFTS);
 		
 }
 /* End of calcThermalError()*/
@@ -535,14 +557,15 @@ void indexMotor(int returnPosition, int stepsToStop)
 		countTemp = 0;
 		count =0;
 		__delay32(EEPROM_DELAY*10);
-	do{
+	while (count < returnPosition);
+	{
 		setDir = FORWARD;
 		moveMotor(setDir, TIMER_PERIOD2);
 		while(count==countTemp);
 		motorPos++;
 		countTemp++;
 		updateAnalogOut(motorPos);
-		}while (count < returnPosition);
+	}
 		setDir = STOP;
 		moveMotor(setDir, TIMER_PERIOD2);	
 		

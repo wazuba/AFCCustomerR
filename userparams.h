@@ -45,11 +45,11 @@
 	#define AFC_LOST_FAULT			0x0C
 	#define OCFAULT					0x03
 	#define BUFFER_SIZE				32
-	#define COOL_SHIFTS				14
+	#define COOL_SHIFTS				16
 	#define MOTOR_PRE_SHIFTS		16
 	#define MOTOR_RATE				800
-	#define COOL_RATE				250
-	#define MOTOR_POST_SHIFTS		9
+	#define COOL_RATE				760
+	#define MOTOR_POST_SHIFTS		18
 	#define SMALL_THERMAL_ERROR		0x000F
 /********************** Motor parameters *******************************/
 
