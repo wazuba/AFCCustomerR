@@ -48,6 +48,7 @@
 	extern int reflectedPower;
 	extern int coolRate;  
 	extern unsigned int thermalCounter;
+	extern unsigned int thermalCounter2;
 	extern int target;
     extern unsigned long heatAccumulator;
 	extern int counterA;

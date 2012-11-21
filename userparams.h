@@ -51,6 +51,8 @@
 	#define COOL_RATE				760
 	#define MOTOR_POST_SHIFTS		18
 	#define SMALL_THERMAL_ERROR		0x000F
+	#define THERMAL_COUNTER1		2500
+	#define THERMAL_COUNTER2		50000
 /********************** Motor parameters *******************************/
 
     #define MOTOR_R                 6.2             //motor resistance in the configuration in which it's conected
@@ -69,10 +71,6 @@
 	#define MOTOR_VOLTAGE_LOW (unsigned int)0x51D8 //90% DC
 /******************** Software Parameters ****************************/  
 
-  
-    //Decay driving mode
-    #define FIXED_DECAY             0               //in this mode only one current decay mode is used
-    #define ALTERNATE_DECAY         1               //in this mode the current decay is alternated between two modes
     
     #define TABLE_SIZE	            128             //sinewave look-up table size
     #define TABLE_SIZE_MUL2	        TABLE_SIZE*2    //table size *2
@@ -86,18 +84,6 @@
     #define ST_1_8STEP              0b1111100
     #define ST_1_16STEP             0b1111110
     #define ST_1_32STEP             0b1111111
-    
-    
-    
-    
-    //define bipolar decay modes                
-                                                    //drive = high mosfet + opposite low mosfet
-    #define D_FAST                  0               //fast decay = all MOSFETS off
-    #define D_SLOW_L_DIODE          1               //slow decay = low diode + opposite low mosfet
-    #define D_SLOW_H_DIODE          2               //slow decay = high mosfet + opposite high diode
-    #define D_SLOW_L_MOSFET         3               //slow decay = low mosfet + opposite low mosfet
-    #define D_SLOW_H_MOSFET         4               //slow decay = high mosfet + opposite high mosfet
-    #define D_REVERSE               5               //reverse = low mosfet + opposite high mosfet
    
     //State machine defines
     #define STATE_WARM_UP           1
@@ -111,9 +97,6 @@
     #define FORWARD                 0               //winding forward direction; used by setDir variables
     #define REVERSE                 1               //winding reverse direction; used by setDir variables
 	#define STOP					2
-    #define MOTOR_FORWARD           1               //rotor is rotating in forward direction
-    #define MOTOR_REVERSE          -1               //rotor is rotating in reverse direction
-  
  
   
 #endif

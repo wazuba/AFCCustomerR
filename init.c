@@ -31,6 +31,7 @@ void initPeripherals(void){
 	TRISB = 0xFFF;
 	_TRISB10 = 0;
 	
+	
 	//LAT B
 	SAMPLE = 0;
 	

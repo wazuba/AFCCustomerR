@@ -67,10 +67,17 @@ void __attribute__((interrupt, no_auto_psv)) _PWMSpEventMatchInterrupt(void)
 		counterB++;
 	}
 	IFS1bits.PSEMIF = 0;
-	if (thermalCounter < 2500)
+	
+	if (thermalCounter < THERMAL_COUNTER1)
 		thermalCounter++;
 	else
 		thermalCounter = 0;
+		
+	if (thermalCounter2 < THERMAL_COUNTER2)
+		thermalCounter2++;
+	else
+		thermalCounter2 = 0;
+		
 }
 /******************************************************************************
 * Interrupt:     _INT0Interrupt()

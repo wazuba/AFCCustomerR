@@ -10,7 +10,7 @@
 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Author            Date      Comments on this revision
 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-* Jason Henry	  06/29/12  	Customer R LINAC First Release
+* Jason Henry	  11/21/12  	Customer R LINAC First Release
 *                             
 *                             
 *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,6 +49,7 @@ faultFlags faultStatus;			//Fault flag structure
 unsigned int homePos;			//Current home position of the motor
 unsigned int count;
 unsigned int thermalCounter;				
+unsigned int thermalCounter2;
 int heatPerPulse;				//Analog reference representing the added heat per pulse
 int prevReflectedPower;			//Used to store the previous sample of the reflected power
 int reflectedPower;				//The current sample of reflected power
@@ -195,7 +196,7 @@ void stateMachine(void)
 				moveMotor(setDir, TIMER_PERIOD2);				
 		}
 		
-		if (thermalCounter >= 2500) //Using the PWM special event interrupt to increment every TMR1 period match (~20us) 2500*20uS ~= 50mS
+		if (thermalCounter >= THERMAL_COUNTER1) //Using the PWM special event interrupt to increment every TMR1 period match (~20us) 50000*20uS ~= 1S
 			{
 				
 				/*Reduce the accumulator by the cool rate coef.*/
@@ -204,15 +205,19 @@ void stateMachine(void)
 				else
 					heatAccumulator = 0;
 					
+							
+			}		
+				/* Outer loop, calculates Thermal Drift effects and moves motor proactivley (Feedforward)*/
+		if (thermalCounter >= THERMAL_COUNTER2) //Using the PWM special event interrupt to increment every TMR1 period match (~20us) 2500*20uS ~= 50mS
+			{
 				ADCPC2bits.SWTRG5 = 1; /*Trigger ADC to convert AN9 (Home Position input from PLC) */
 				while(!ADSTATbits.P4RDY);
 				homePos = ADCBUF9;
 				ADSTATbits.P4RDY = 0;
-				
-			}		
-				/* Outer loop, calculates Thermal Drift effects and moves motor proactivley (Feedforward)*/
 				target = homePos + calcThermalError();
-				moveMotorThermal();
+			}
+				
+
 	
 	}
 	/* End of MAN State*/
@@ -273,21 +278,28 @@ void stateMachine(void)
 			}
 		}
 			
-			if (thermalCounter >= 2500) //Using the PWM special event interrupt to increment every TMR1 period match (~20us) 2500*20uS ~= 50mS
+		if (thermalCounter >= THERMAL_COUNTER1) //Using the PWM special event interrupt to increment every TMR1 period match (~20us) 50000*20uS ~= 1S
 			{
 				
 				/*Reduce the accumulator by the cool rate coef.*/
-				heatAccumulator -= (heatAccumulator>>COOL_SHIFTS)*COOL_RATE;
+				if (heatAccumulator>0)
+					heatAccumulator -= (heatAccumulator>>COOL_SHIFTS)*COOL_RATE;
+				else
+					heatAccumulator = 0;
+				error--;
+							
+			}		
+				/* Outer loop, calculates Thermal Drift effects and moves motor proactivley (Feedforward)*/
+		if (thermalCounter >= THERMAL_COUNTER2) //Using the PWM special event interrupt to increment every TMR1 period match (~20us) 2500*20uS ~= 50mS
+			{
 				ADCPC2bits.SWTRG5 = 1; /*Trigger ADC to convert AN9 (Home Position input from PLC) */
 				while(!ADSTATbits.P4RDY);
 				homePos = ADCBUF9;
 				ADSTATbits.P4RDY = 0;
-				
-			}		
-				/* Outer loop, calculates Thermal Drift effects and moves motor proactivley (Feedforward)*/
 				target = homePos + calcThermalError() + error;
 				moveMotorThermal();
-		
+			}
+									
 	}
 		  
 
