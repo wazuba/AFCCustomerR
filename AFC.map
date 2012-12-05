@@ -1,4 +1,4 @@
-Microchip Technology Inc, vv3_30 (B) O
+Microchip Technology Inc, vv3_30 (B) 2
 
 Tool Name:
   c:\program files\microchip\mplab c30\bin\bin\..\bin/pic30-coff-ld.exe
@@ -30,6 +30,8 @@ Command:
   -Tp30F2023.gld.00 \
   --defsym=__MPLAB_BUILD=1 \
   --defsym=__MPLAB_DEBUG=1 \
+  --defsym=__MPLAB_DEBUGGER_ICD3=1 \
+  --defsym=__ICD2RAM=1 \
   -Map=AFC.map \
   --report-mem \
   -start-group \
@@ -69,19 +71,20 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100                0xb0           0x108  (264)
 .const                       0x1b0               0x200           0x300  (768)
-.text                        0x3b0               0xdc0          0x14a0  (5280)
-.dinit                      0x1170                 0x8             0xc  (12)
+.text                        0x3b0               0xdc2          0x14a3  (5283)
+.dinit                      0x1172                 0x8             0xc  (12)
 
-                     Total program memory used (bytes):         0x18b4  (6324) 53%
+                     Total program memory used (bytes):         0x18b7  (6327) 53%
 
 
 Data Memory  [Origin = 0x800, Length = 0x200]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.nbss                        0x800                   0            0x3c  (60)
+.icd                         0x800                0x50            0x50  (80)
+.nbss                        0x850                   0            0x3c  (60)
 
-                        Total data memory used (bytes):           0x3c  (60) 11%
+                        Total data memory used (bytes):           0x8c  (140) 27%
 
 
 Dynamic Memory Usage
@@ -89,74 +92,74 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x83c                               0x1c4  (452)
+stack                        0x88c                               0x174  (372)
 
-                        Maximum dynamic memory (bytes):          0x1c4  (452)
+                        Maximum dynamic memory (bytes):          0x174  (372)
 
 
 External Symbols in Data Memory (by address):
 
-                    0x0800                  _state
-                    0x0802                  _IMotor1
-                    0x0804                  _IMotor2
-                    0x0806                  _triggerINT
-                    0x0808                  _motorOrDelay
-                    0x080a                  _setDir
-                    0x080c                  _stepSize
-                    0x080e                  _motorStep
-                    0x0810                  _motorPos
-                    0x0812                  _homePos
-                    0x0814                  _motorPosAddress
-                    0x0816                  _error
-                    0x0818                  _homeAddress
-                    0x081a                  _sampleTrigger
-                    0x081c                  _faultStatus
-                    0x081e                  _count
-                    0x0820                  _heatPerPulse
-                    0x0822                  _prevReflectedPower
-                    0x0824                  _reflectedPower
-                    0x0826                  _coolRate
-                    0x0828                  _thermalCounter
-                    0x082a                  _thermalCounter2
-                    0x082c                  _target
-                    0x082e                  _heatAccumulator
-                    0x0832                  _counterA
-                    0x0834                  _counterB
-                    0x0836                  _warmUpComplete
-                    0x0838                  _autoControl
-                    0x083a                  _manualControl
+                    0x0850                  _state
+                    0x0852                  _IMotor1
+                    0x0854                  _IMotor2
+                    0x0856                  _triggerINT
+                    0x0858                  _motorOrDelay
+                    0x085a                  _setDir
+                    0x085c                  _stepSize
+                    0x085e                  _motorStep
+                    0x0860                  _motorPos
+                    0x0862                  _homePos
+                    0x0864                  _motorPosAddress
+                    0x0866                  _error
+                    0x0868                  _homeAddress
+                    0x086a                  _sampleTrigger
+                    0x086c                  _faultStatus
+                    0x086e                  _count
+                    0x0870                  _heatPerPulse
+                    0x0872                  _prevReflectedPower
+                    0x0874                  _reflectedPower
+                    0x0876                  _coolRate
+                    0x0878                  _thermalCounter
+                    0x087a                  _thermalCounter2
+                    0x087c                  _target
+                    0x087e                  _heatAccumulator
+                    0x0882                  _counterA
+                    0x0884                  _counterB
+                    0x0886                  _warmUpComplete
+                    0x0888                  _autoControl
+                    0x088a                  _manualControl
 
 External Symbols in Data Memory (by name):
 
-                    0x0802                  _IMotor1
-                    0x0804                  _IMotor2
-                    0x0838                  _autoControl
-                    0x0826                  _coolRate
-                    0x081e                  _count
-                    0x0832                  _counterA
-                    0x0834                  _counterB
-                    0x0816                  _error
-                    0x081c                  _faultStatus
-                    0x082e                  _heatAccumulator
-                    0x0820                  _heatPerPulse
-                    0x0818                  _homeAddress
-                    0x0812                  _homePos
-                    0x083a                  _manualControl
-                    0x0808                  _motorOrDelay
-                    0x0810                  _motorPos
-                    0x0814                  _motorPosAddress
-                    0x080e                  _motorStep
-                    0x0822                  _prevReflectedPower
-                    0x0824                  _reflectedPower
-                    0x081a                  _sampleTrigger
-                    0x080a                  _setDir
-                    0x0800                  _state
-                    0x080c                  _stepSize
-                    0x082c                  _target
-                    0x0828                  _thermalCounter
-                    0x082a                  _thermalCounter2
-                    0x0806                  _triggerINT
-                    0x0836                  _warmUpComplete
+                    0x0852                  _IMotor1
+                    0x0854                  _IMotor2
+                    0x0888                  _autoControl
+                    0x0876                  _coolRate
+                    0x086e                  _count
+                    0x0882                  _counterA
+                    0x0884                  _counterB
+                    0x0866                  _error
+                    0x086c                  _faultStatus
+                    0x087e                  _heatAccumulator
+                    0x0870                  _heatPerPulse
+                    0x0868                  _homeAddress
+                    0x0862                  _homePos
+                    0x088a                  _manualControl
+                    0x0858                  _motorOrDelay
+                    0x0860                  _motorPos
+                    0x0864                  _motorPosAddress
+                    0x085e                  _motorStep
+                    0x0872                  _prevReflectedPower
+                    0x0874                  _reflectedPower
+                    0x086a                  _sampleTrigger
+                    0x085a                  _setDir
+                    0x0850                  _state
+                    0x085c                  _stepSize
+                    0x087c                  _target
+                    0x0878                  _thermalCounter
+                    0x087a                  _thermalCounter2
+                    0x0856                  _triggerINT
+                    0x0886                  _warmUpComplete
 
 External Symbols in Program Memory (by address):
 
@@ -170,71 +173,71 @@ External Symbols in Program Memory (by address):
                   0x0002b0                  _winding1BTable
                   0x0003b0                  _main
                   0x0003d0                  _stateMachine
-                  0x00064a                  _checkState
-                  0x00068e                  _calcThermalError
-                  0x00069c                  _moveMotorThermal
-                  0x00070e                  _moveMotor
-                  0x000722                  _updateAnalogOut
-                  0x000732                  _disableINT0
-                  0x00073e                  _enableINT0
-                  0x00074a                  _checkFaults
-                  0x00080e                  _indexMotor
-                  0x000890                  _initPeripherals
-                  0x00091e                  _initInterrupts
-                  0x000964                  _initPWM
-                  0x000a84                  _initADC
-                  0x000af8                  _initTMR
-                  0x000b50                  _M24LC64FWriteWord
-                  0x000ba4                  _M24LC64FReadWord
-                  0x000c04                  _ByteWriteI2C
-                  0x000d24                  _ByteReadI2C
-                  0x000e08                  _MCP4725FWriteWord
-                  0x000ee2                  _MCP4725FReadWord
-                  0x000fdc                  __ADCInterrupt
-                  0x000fe8                  __PWMSpEventMatchInterrupt
-                  0x0010fc                  __INT0Interrupt
-                  0x001138                  __INT2Interrupt
-                  0x001152                  __T2Interrupt
-                  0x001166                  __T3Interrupt
+                  0x000644                  _checkState
+                  0x000688                  _calcThermalError
+                  0x000696                  _moveMotorThermal
+                  0x000708                  _moveMotor
+                  0x00071c                  _updateAnalogOut
+                  0x00072c                  _disableINT0
+                  0x000738                  _enableINT0
+                  0x000744                  _checkFaults
+                  0x000808                  _indexMotor
+                  0x00088a                  _initPeripherals
+                  0x000918                  _initInterrupts
+                  0x00095e                  _initPWM
+                  0x000a7e                  _initADC
+                  0x000af2                  _initTMR
+                  0x000b4a                  _M24LC64FWriteWord
+                  0x000b9e                  _M24LC64FReadWord
+                  0x000bfe                  _ByteWriteI2C
+                  0x000d1e                  _ByteReadI2C
+                  0x000e02                  _MCP4725FWriteWord
+                  0x000edc                  _MCP4725FReadWord
+                  0x000fd6                  __ADCInterrupt
+                  0x000fe2                  __PWMSpEventMatchInterrupt
+                  0x0010fe                  __INT0Interrupt
+                  0x00113a                  __INT2Interrupt
+                  0x001154                  __T2Interrupt
+                  0x001168                  __T3Interrupt
                   0xf80004                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x000d24                  _ByteReadI2C
-                  0x000c04                  _ByteWriteI2C
-                  0x000ba4                  _M24LC64FReadWord
-                  0x000b50                  _M24LC64FWriteWord
-                  0x000ee2                  _MCP4725FReadWord
-                  0x000e08                  _MCP4725FWriteWord
-                  0x000fdc                  __ADCInterrupt
+                  0x000d1e                  _ByteReadI2C
+                  0x000bfe                  _ByteWriteI2C
+                  0x000b9e                  _M24LC64FReadWord
+                  0x000b4a                  _M24LC64FWriteWord
+                  0x000edc                  _MCP4725FReadWord
+                  0x000e02                  _MCP4725FWriteWord
+                  0x000fd6                  __ADCInterrupt
                   0x0001ac                  __DefaultInterrupt
                   0xf80004                  __FGS.sec
-                  0x0010fc                  __INT0Interrupt
-                  0x001138                  __INT2Interrupt
-                  0x000fe8                  __PWMSpEventMatchInterrupt
-                  0x001152                  __T2Interrupt
-                  0x001166                  __T3Interrupt
+                  0x0010fe                  __INT0Interrupt
+                  0x00113a                  __INT2Interrupt
+                  0x000fe2                  __PWMSpEventMatchInterrupt
+                  0x001154                  __T2Interrupt
+                  0x001168                  __T3Interrupt
                   0x000132                  ___delay32
                   0x00014e                  __data_init
                   0x00014e                  __data_init_standard
                   0x000122                  __psv_init
                   0x000100                  __resetPRI
-                  0x00068e                  _calcThermalError
-                  0x00074a                  _checkFaults
-                  0x00064a                  _checkState
-                  0x000732                  _disableINT0
-                  0x00073e                  _enableINT0
-                  0x00080e                  _indexMotor
-                  0x000a84                  _initADC
-                  0x00091e                  _initInterrupts
-                  0x000964                  _initPWM
-                  0x000890                  _initPeripherals
-                  0x000af8                  _initTMR
+                  0x000688                  _calcThermalError
+                  0x000744                  _checkFaults
+                  0x000644                  _checkState
+                  0x00072c                  _disableINT0
+                  0x000738                  _enableINT0
+                  0x000808                  _indexMotor
+                  0x000a7e                  _initADC
+                  0x000918                  _initInterrupts
+                  0x00095e                  _initPWM
+                  0x00088a                  _initPeripherals
+                  0x000af2                  _initTMR
                   0x0003b0                  _main
-                  0x00070e                  _moveMotor
-                  0x00069c                  _moveMotorThermal
+                  0x000708                  _moveMotor
+                  0x000696                  _moveMotorThermal
                   0x0003d0                  _stateMachine
-                  0x000722                  _updateAnalogOut
+                  0x00071c                  _updateAnalogOut
                   0x0001b0                  _winding1ATable
                   0x0002b0                  _winding1BTable
 
@@ -349,6 +352,10 @@ __FUID0
 __FUID1
  *(__FUID1.sec)
 
+.icd                0x0800         0x50
+                    0x0850                  . = (. + DEFINED (__ICD2RAM)?0x50:0x0)
+ *fill*             0x0800         0x5000
+
 userdata
  *(userdata)
 
@@ -395,25 +402,25 @@ userdata
                   0x00000e          0x4 LONG 0x1ac DEFINED (__ReservedTrap5)?ABSOLUTE (__ReservedTrap5):ABSOLUTE (__DefaultInterrupt)
                   0x000010          0x4 LONG 0x1ac DEFINED (__ReservedTrap6)?ABSOLUTE (__ReservedTrap6):ABSOLUTE (__DefaultInterrupt)
                   0x000012          0x4 LONG 0x1ac DEFINED (__ReservedTrap7)?ABSOLUTE (__ReservedTrap7):ABSOLUTE (__DefaultInterrupt)
-                  0x000014          0x4 LONG 0x10fc DEFINED (__INT0Interrupt)?ABSOLUTE (__INT0Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000014          0x4 LONG 0x10fe DEFINED (__INT0Interrupt)?ABSOLUTE (__INT0Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000016          0x4 LONG 0x1ac DEFINED (__IC1Interrupt)?ABSOLUTE (__IC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000018          0x4 LONG 0x1ac DEFINED (__OC1Interrupt)?ABSOLUTE (__OC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001a          0x4 LONG 0x1ac DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00001c          0x4 LONG 0x1ac DEFINED (__Interrupt4)?ABSOLUTE (__Interrupt4):ABSOLUTE (__DefaultInterrupt)
                   0x00001e          0x4 LONG 0x1ac DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000020          0x4 LONG 0x1152 DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000022          0x4 LONG 0x1166 DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000020          0x4 LONG 0x1154 DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000022          0x4 LONG 0x1168 DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000024          0x4 LONG 0x1ac DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000026          0x4 LONG 0x1ac DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000028          0x4 LONG 0x1ac DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x00002a          0x4 LONG 0xfdc DEFINED (__ADCInterrupt)?ABSOLUTE (__ADCInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x00002a          0x4 LONG 0xfd6 DEFINED (__ADCInterrupt)?ABSOLUTE (__ADCInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002c          0x4 LONG 0x1ac DEFINED (__NVMInterrupt)?ABSOLUTE (__NVMInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00002e          0x4 LONG 0x1ac DEFINED (__SI2CInterrupt)?ABSOLUTE (__SI2CInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000030          0x4 LONG 0x1ac DEFINED (__MI2CInterrupt)?ABSOLUTE (__MI2CInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000032          0x4 LONG 0x1ac DEFINED (__Interrupt15)?ABSOLUTE (__Interrupt15):ABSOLUTE (__DefaultInterrupt)
                   0x000034          0x4 LONG 0x1ac DEFINED (__INT1Interrupt)?ABSOLUTE (__INT1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000036          0x4 LONG 0x1138 DEFINED (__INT2Interrupt)?ABSOLUTE (__INT2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x000038          0x4 LONG 0xfe8 DEFINED (__PWMSpEventMatchInterrupt)?ABSOLUTE (__PWMSpEventMatchInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000036          0x4 LONG 0x113a DEFINED (__INT2Interrupt)?ABSOLUTE (__INT2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000038          0x4 LONG 0xfe2 DEFINED (__PWMSpEventMatchInterrupt)?ABSOLUTE (__PWMSpEventMatchInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00003a          0x4 LONG 0x1ac DEFINED (__PWM1Interrupt)?ABSOLUTE (__PWM1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00003c          0x4 LONG 0x1ac DEFINED (__PWM2Interrupt)?ABSOLUTE (__PWM2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00003e          0x4 LONG 0x1ac DEFINED (__PWM3Interrupt)?ABSOLUTE (__PWM3Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -459,25 +466,25 @@ userdata
                   0x00008e          0x4 LONG 0x1ac DEFINED (__AltReservedTrap5)?ABSOLUTE (__AltReservedTrap5):DEFINED (__ReservedTrap5)?ABSOLUTE (__ReservedTrap5):ABSOLUTE (__DefaultInterrupt)
                   0x000090          0x4 LONG 0x1ac DEFINED (__AltReservedTrap6)?ABSOLUTE (__AltReservedTrap6):DEFINED (__ReservedTrap6)?ABSOLUTE (__ReservedTrap6):ABSOLUTE (__DefaultInterrupt)
                   0x000092          0x4 LONG 0x1ac DEFINED (__AltReservedTrap7)?ABSOLUTE (__AltReservedTrap7):DEFINED (__ReservedTrap7)?ABSOLUTE (__ReservedTrap7):ABSOLUTE (__DefaultInterrupt)
-                  0x000094          0x4 LONG 0x10fc DEFINED (__AltINT0Interrupt)?ABSOLUTE (__AltINT0Interrupt):DEFINED (__INT0Interrupt)?ABSOLUTE (__INT0Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x000094          0x4 LONG 0x10fe DEFINED (__AltINT0Interrupt)?ABSOLUTE (__AltINT0Interrupt):DEFINED (__INT0Interrupt)?ABSOLUTE (__INT0Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000096          0x4 LONG 0x1ac DEFINED (__AltIC1Interrupt)?ABSOLUTE (__AltIC1Interrupt):DEFINED (__IC1Interrupt)?ABSOLUTE (__IC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x000098          0x4 LONG 0x1ac DEFINED (__AltOC1Interrupt)?ABSOLUTE (__AltOC1Interrupt):DEFINED (__OC1Interrupt)?ABSOLUTE (__OC1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00009a          0x4 LONG 0x1ac DEFINED (__AltT1Interrupt)?ABSOLUTE (__AltT1Interrupt):DEFINED (__T1Interrupt)?ABSOLUTE (__T1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x00009c          0x4 LONG 0x1ac DEFINED (__AltInterrupt4)?ABSOLUTE (__AltInterrupt4):DEFINED (__Interrupt4)?ABSOLUTE (__Interrupt4):ABSOLUTE (__DefaultInterrupt)
                   0x00009e          0x4 LONG 0x1ac DEFINED (__AltOC2Interrupt)?ABSOLUTE (__AltOC2Interrupt):DEFINED (__OC2Interrupt)?ABSOLUTE (__OC2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000a0          0x4 LONG 0x1152 DEFINED (__AltT2Interrupt)?ABSOLUTE (__AltT2Interrupt):DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000a2          0x4 LONG 0x1166 DEFINED (__AltT3Interrupt)?ABSOLUTE (__AltT3Interrupt):DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000a0          0x4 LONG 0x1154 DEFINED (__AltT2Interrupt)?ABSOLUTE (__AltT2Interrupt):DEFINED (__T2Interrupt)?ABSOLUTE (__T2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000a2          0x4 LONG 0x1168 DEFINED (__AltT3Interrupt)?ABSOLUTE (__AltT3Interrupt):DEFINED (__T3Interrupt)?ABSOLUTE (__T3Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000a4          0x4 LONG 0x1ac DEFINED (__AltSPI1Interrupt)?ABSOLUTE (__AltSPI1Interrupt):DEFINED (__SPI1Interrupt)?ABSOLUTE (__SPI1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000a6          0x4 LONG 0x1ac DEFINED (__AltU1RXInterrupt)?ABSOLUTE (__AltU1RXInterrupt):DEFINED (__U1RXInterrupt)?ABSOLUTE (__U1RXInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000a8          0x4 LONG 0x1ac DEFINED (__AltU1TXInterrupt)?ABSOLUTE (__AltU1TXInterrupt):DEFINED (__U1TXInterrupt)?ABSOLUTE (__U1TXInterrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000aa          0x4 LONG 0xfdc DEFINED (__AltADCInterrupt)?ABSOLUTE (__AltADCInterrupt):DEFINED (__ADCInterrupt)?ABSOLUTE (__ADCInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000aa          0x4 LONG 0xfd6 DEFINED (__AltADCInterrupt)?ABSOLUTE (__AltADCInterrupt):DEFINED (__ADCInterrupt)?ABSOLUTE (__ADCInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000ac          0x4 LONG 0x1ac DEFINED (__AltNVMInterrupt)?ABSOLUTE (__AltNVMInterrupt):DEFINED (__NVMInterrupt)?ABSOLUTE (__NVMInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000ae          0x4 LONG 0x1ac DEFINED (__AltSI2CInterrupt)?ABSOLUTE (__AltSI2CInterrupt):DEFINED (__SI2CInterrupt)?ABSOLUTE (__SI2CInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000b0          0x4 LONG 0x1ac DEFINED (__AltMI2CInterrupt)?ABSOLUTE (__AltMI2CInterrupt):DEFINED (__MI2CInterrupt)?ABSOLUTE (__MI2CInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000b2          0x4 LONG 0x1ac DEFINED (__AltInterrupt15)?ABSOLUTE (__AltInterrupt15):DEFINED (__Interrupt15)?ABSOLUTE (__Interrupt15):ABSOLUTE (__DefaultInterrupt)
                   0x0000b4          0x4 LONG 0x1ac DEFINED (__AltINT1Interrupt)?ABSOLUTE (__AltINT1Interrupt):DEFINED (__INT1Interrupt)?ABSOLUTE (__INT1Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000b6          0x4 LONG 0x1138 DEFINED (__AltINT2Interrupt)?ABSOLUTE (__AltINT2Interrupt):DEFINED (__INT2Interrupt)?ABSOLUTE (__INT2Interrupt):ABSOLUTE (__DefaultInterrupt)
-                  0x0000b8          0x4 LONG 0xfe8 DEFINED (__AltPWMSpEventMatchInterrupt)?ABSOLUTE (__AltPWMSpEventMatchInterrupt):DEFINED (__PWMSpEventMatchInterrupt)?ABSOLUTE (__PWMSpEventMatchInterrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000b6          0x4 LONG 0x113a DEFINED (__AltINT2Interrupt)?ABSOLUTE (__AltINT2Interrupt):DEFINED (__INT2Interrupt)?ABSOLUTE (__INT2Interrupt):ABSOLUTE (__DefaultInterrupt)
+                  0x0000b8          0x4 LONG 0xfe2 DEFINED (__AltPWMSpEventMatchInterrupt)?ABSOLUTE (__AltPWMSpEventMatchInterrupt):DEFINED (__PWMSpEventMatchInterrupt)?ABSOLUTE (__PWMSpEventMatchInterrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000ba          0x4 LONG 0x1ac DEFINED (__AltPWM1Interrupt)?ABSOLUTE (__AltPWM1Interrupt):DEFINED (__PWM1Interrupt)?ABSOLUTE (__PWM1Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000bc          0x4 LONG 0x1ac DEFINED (__AltPWM2Interrupt)?ABSOLUTE (__AltPWM2Interrupt):DEFINED (__PWM2Interrupt)?ABSOLUTE (__PWM2Interrupt):ABSOLUTE (__DefaultInterrupt)
                   0x0000be          0x4 LONG 0x1ac DEFINED (__AltPWM3Interrupt)?ABSOLUTE (__AltPWM3Interrupt):DEFINED (__PWM3Interrupt)?ABSOLUTE (__PWM3Interrupt):ABSOLUTE (__DefaultInterrupt)
@@ -1052,6 +1059,8 @@ userdata
                     0x0220                  _UART1 = 0x220
                     0x0001                  __MPLAB_BUILD = 0x1
                     0x0001                  __MPLAB_DEBUG = 0x1
+                    0x0001                  __MPLAB_DEBUGGER_ICD3 = 0x1
+                    0x0001                  __ICD2RAM = 0x1
 START GROUP
 LOAD c:/program files/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a
 LOAD c:/program files/microchip/mplab c30/bin/bin/../../lib\libm-coff.a
@@ -1081,77 +1090,77 @@ __c30_signature
  __c30_signature
                   0x00002a          0x6 c:/program files/microchip/mplab c30/bin/bin/../../lib\libpic30-coff.a(data_init_standard.o)
 
-.nbss               0x0800         0x3c
- .nbss              0x0800         0x3c main.o
-                    0x0800                  state
-                    0x0802                  IMotor1
-                    0x0804                  IMotor2
-                    0x0806                  triggerINT
-                    0x0808                  motorOrDelay
-                    0x080a                  setDir
-                    0x080c                  stepSize
-                    0x080e                  motorStep
-                    0x0810                  motorPos
-                    0x0812                  homePos
-                    0x0814                  motorPosAddress
-                    0x0816                  error
-                    0x0818                  homeAddress
-                    0x081a                  sampleTrigger
-                    0x081c                  faultStatus
-                    0x081e                  count
-                    0x0820                  heatPerPulse
-                    0x0822                  prevReflectedPower
-                    0x0824                  reflectedPower
-                    0x0826                  coolRate
-                    0x0828                  thermalCounter
-                    0x082a                  thermalCounter2
-                    0x082c                  target
-                    0x082e                  heatAccumulator
-                    0x0832                  counterA
-                    0x0834                  counterB
-                    0x0836                  warmUpComplete
-                    0x0838                  autoControl
-                    0x083a                  manualControl
+.nbss               0x0850         0x3c
+ .nbss              0x0850         0x3c main.o
+                    0x0850                  state
+                    0x0852                  IMotor1
+                    0x0854                  IMotor2
+                    0x0856                  triggerINT
+                    0x0858                  motorOrDelay
+                    0x085a                  setDir
+                    0x085c                  stepSize
+                    0x085e                  motorStep
+                    0x0860                  motorPos
+                    0x0862                  homePos
+                    0x0864                  motorPosAddress
+                    0x0866                  error
+                    0x0868                  homeAddress
+                    0x086a                  sampleTrigger
+                    0x086c                  faultStatus
+                    0x086e                  count
+                    0x0870                  heatPerPulse
+                    0x0872                  prevReflectedPower
+                    0x0874                  reflectedPower
+                    0x0876                  coolRate
+                    0x0878                  thermalCounter
+                    0x087a                  thermalCounter2
+                    0x087c                  target
+                    0x087e                  heatAccumulator
+                    0x0882                  counterA
+                    0x0884                  counterB
+                    0x0886                  warmUpComplete
+                    0x0888                  autoControl
+                    0x088a                  manualControl
 
 .const              0x81b0        0x200 load address 0x0001b0  
  .const             0x81b0        0x200 Interrupts.o
                     0x81b0                  winding1ATable
                     0x82b0                  winding1BTable
 
-.text             0x0003b0        0xdc0
- .text            0x0003b0        0x4e0 main.o
+.text             0x0003b0        0xdc2
+ .text            0x0003b0        0x4da main.o
                   0x0003b0                  main
                   0x0003d0                  stateMachine
-                  0x00064a                  checkState
-                  0x00068e                  calcThermalError
-                  0x00069c                  moveMotorThermal
-                  0x00070e                  moveMotor
-                  0x000722                  updateAnalogOut
-                  0x000732                  disableINT0
-                  0x00073e                  enableINT0
-                  0x00074a                  checkFaults
-                  0x00080e                  indexMotor
- .text            0x000890        0x2c0 init.o
-                  0x000890                  initPeripherals
-                  0x00091e                  initInterrupts
-                  0x000964                  initPWM
-                  0x000a84                  initADC
-                  0x000af8                  initTMR
- .text            0x000b50        0x2b8 M24LC64F.o
-                  0x000b50                  M24LC64FWriteWord
-                  0x000ba4                  M24LC64FReadWord
-                  0x000c04                  ByteWriteI2C
-                  0x000d24                  ByteReadI2C
- .text            0x000e08        0x1d4 MCP4725F.o
-                  0x000e08                  MCP4725FWriteWord
-                  0x000ee2                  MCP4725FReadWord
- .text            0x000fdc        0x194 Interrupts.o
-                  0x000fdc                  _ADCInterrupt
-                  0x000fe8                  _PWMSpEventMatchInterrupt
-                  0x0010fc                  _INT0Interrupt
-                  0x001138                  _INT2Interrupt
-                  0x001152                  _T2Interrupt
-                  0x001166                  _T3Interrupt
+                  0x000644                  checkState
+                  0x000688                  calcThermalError
+                  0x000696                  moveMotorThermal
+                  0x000708                  moveMotor
+                  0x00071c                  updateAnalogOut
+                  0x00072c                  disableINT0
+                  0x000738                  enableINT0
+                  0x000744                  checkFaults
+                  0x000808                  indexMotor
+ .text            0x00088a        0x2c0 init.o
+                  0x00088a                  initPeripherals
+                  0x000918                  initInterrupts
+                  0x00095e                  initPWM
+                  0x000a7e                  initADC
+                  0x000af2                  initTMR
+ .text            0x000b4a        0x2b8 M24LC64F.o
+                  0x000b4a                  M24LC64FWriteWord
+                  0x000b9e                  M24LC64FReadWord
+                  0x000bfe                  ByteWriteI2C
+                  0x000d1e                  ByteReadI2C
+ .text            0x000e02        0x1d4 MCP4725F.o
+                  0x000e02                  MCP4725FWriteWord
+                  0x000edc                  MCP4725FReadWord
+ .text            0x000fd6        0x19c Interrupts.o
+                  0x000fd6                  _ADCInterrupt
+                  0x000fe2                  _PWMSpEventMatchInterrupt
+                  0x0010fe                  _INT0Interrupt
+                  0x00113a                  _INT2Interrupt
+                  0x001154                  _T2Interrupt
+                  0x001168                  _T3Interrupt
 
-.dinit            0x001170          0x8
- .dinit           0x001170          0x8 data_init
+.dinit            0x001172          0x8
+ .dinit           0x001172          0x8 data_init

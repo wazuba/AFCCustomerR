@@ -30,26 +30,28 @@ void __attribute__((interrupt, no_auto_psv)) _ADCInterrupt (void)
 void __attribute__((interrupt, no_auto_psv)) _PWMSpEventMatchInterrupt(void)
 {
 	//int myTime = TMR2;
-	counterA %= TABLE_SIZE;
-	counterB += TABLE_SIZE>>2; //90 degree shift
-	counterB %= TABLE_SIZE;
+
+	
 	if (T2CONbits.TON)
 	{
+		counterA %= (TABLE_SIZE);
+		//counterB += TABLE_SIZE>>2; //90 degree shift
+		counterB %= (TABLE_SIZE);
 		if (setDir == FORWARD)
 		{
 			//FLT1 = 0;
 			PDC1 = winding1ATable[(counterA)&stepSize];
 			PDC2 = winding1BTable[(counterA)&stepSize];
-			PDC3 = winding1ATable[(counterB)&stepSize];
-			PDC4 = winding1BTable[(counterB)&stepSize];
+			PDC3 = winding1ATable[((counterB + 32)%TABLE_SIZE)&stepSize];
+			PDC4 = winding1BTable[((counterB + 32)%TABLE_SIZE)&stepSize];
 			//FLT1 = 1;
 
 		}	
 		if (setDir == REVERSE)
 		{
 			//FLT2 = 0;
-			PDC1 = winding1ATable[(counterB)&stepSize];
-			PDC2 = winding1BTable[(counterB)&stepSize];
+			PDC1 = winding1ATable[((counterB + 32)%TABLE_SIZE)&stepSize];
+			PDC2 = winding1BTable[((counterB + 32)%TABLE_SIZE)&stepSize];
 			PDC3 = winding1ATable[(counterA)&stepSize];
 			PDC4 = winding1BTable[(counterA)&stepSize];
 			//FLT2 = 1;
@@ -61,6 +63,11 @@ void __attribute__((interrupt, no_auto_psv)) _PWMSpEventMatchInterrupt(void)
 			PDC2 = FULL_DC;
 			PDC3 = MOTOR_VOLTAGE_LOW;
 			PDC4 = FULL_DC;
+
+		/*	PDC1 = HALF_DC;
+			PDC2 = HALF_DC;
+			PDC3 = HALF_DC;
+			PDC4 = HALF_DC;*/
 		}
 		
 		counterA++;

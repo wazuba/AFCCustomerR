@@ -51,8 +51,8 @@
 	extern unsigned int thermalCounter2;
 	extern int target;
     extern unsigned long heatAccumulator;
-	extern int counterA;
-	extern int counterB;
+	extern unsigned int counterA;
+	extern unsigned int counterB;
     
 /* Functions */
 

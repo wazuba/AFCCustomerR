@@ -2,7 +2,7 @@
 MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
 Version=1.0
 [File000]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\main.o
+Location=C:\Users\eng4\Documents\RD933\Software\AFCCustomerR Rev 1.0\main.o
 Folder=Intermediary
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -13,9 +13,9 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=-D__DEBUG
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1
 [File001]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\init.o
+Location=C:\Users\eng4\Documents\RD933\Software\AFCCustomerR Rev 1.0\init.o
 Folder=Intermediary
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -26,9 +26,9 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=-D__DEBUG
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1
 [File002]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\Interrupts.o
+Location=C:\Users\eng4\Documents\RD933\Software\AFCCustomerR Rev 1.0\Interrupts.o
 Folder=Intermediary
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -39,9 +39,9 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=-D__DEBUG
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1
 [File003]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\M24LC64F.o
+Location=C:\Users\eng4\Documents\RD933\Software\AFCCustomerR Rev 1.0\M24LC64F.o
 Folder=Intermediary
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -52,9 +52,9 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=-D__DEBUG
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1
 [File004]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\MCP4725F.o
+Location=C:\Users\eng4\Documents\RD933\Software\AFCCustomerR Rev 1.0\MCP4725F.o
 Folder=Intermediary
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -65,9 +65,9 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=-D__DEBUG
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1
 [File005]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\AFC.cof
+Location=C:\Users\eng4\Documents\RD933\Software\AFCCustomerR Rev 1.0\AFC.cof
 Folder=Output
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -78,9 +78,9 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)" -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem
 TraceCmdString=
-DebugOptions=--defsym=__MPLAB_DEBUG=1
+DebugOptions=--defsym=__MPLAB_DEBUG=1 --defsym=__MPLAB_DEBUGGER_ICD3=1 --defsym=__ICD2RAM=1
 [File006]
-Location=C:\Users\jhenry\Documents\P1298 - RD933\Software\AFC Customer R for Test\AFCCustomerR\AFC.hex
+Location=C:\Users\eng4\Documents\RD933\Software\AFCCustomerR Rev 1.0\AFC.hex
 Folder=Output
 DeviceName=dsPIC30F2023
 LanguageToolSuiteID={479DDE59-4D56-455E-855E-FFF59A3DB57E}
@@ -91,7 +91,7 @@ SOLK=<src>|main.c|init.c|Interrupts.c|M24LC64F.c|MCP4725F.c||<obj>||<lib>|C:\Pro
 SuiteArgsString=
 ToolArgsString=-o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)" -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem
 TraceCmdString=
-DebugOptions=--defsym=__MPLAB_DEBUG=1
+DebugOptions=--defsym=__MPLAB_DEBUG=1 --defsym=__MPLAB_DEBUGGER_ICD3=1 --defsym=__ICD2RAM=1
 [TOOL_LOC_STAMPS]
 tool_loc{069BD372-6CA0-40D4-BF2F-5DC806D05083}=C:\Program Files\Microchip\MPLAB C30\bin\pic30-gcc.exe
 tool_loc{433C3D55-811D-409D-A6BF-159CF9355B42}=C:\Program Files\Microchip\MPLAB C30\bin\pic30-ld.exe

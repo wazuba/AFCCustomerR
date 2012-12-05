@@ -56,8 +56,8 @@ int reflectedPower;				//The current sample of reflected power
 int coolRate;					//Cooling rate factor - decrease accumulator by this amount every X mS
 int target;						//Target position given by control loop
 unsigned long heatAccumulator;	//32 bit Accumulator for thermal model
-int counterA;					
-int counterB;
+unsigned int counterA;					
+unsigned int counterB;
 
 
 /*----------------------------------------------------------------------------*/
@@ -134,7 +134,7 @@ void stateMachine(void)
 		initPWM();
 		initADC();
 		initTMR();
-		indexMotor(0, MAX_STEPS); 
+	//	indexMotor(0, MAX_STEPS); 
 	}
 	/* End of INIT State*/
 

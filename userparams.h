@@ -68,7 +68,7 @@
 	#define HALF_DC (unsigned int)(FCY*32/FPWM/2)  //23280 / 2 = 11640
 	#define ZERO_DC 0
 	#define MOTOR_VOLTAGE (unsigned int)0x4000  //70% DC
-	#define MOTOR_VOLTAGE_LOW (unsigned int)0x51D8 //90% DC
+	#define MOTOR_VOLTAGE_LOW (unsigned int)0x5000 //90% DC
 /******************** Software Parameters ****************************/  
 
     
